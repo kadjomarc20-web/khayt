@@ -4,7 +4,7 @@ import { waLink } from "./site";
 
 export const details = {
   eyebrow: "Détails",
-  title: "Ce qui fait la différence se voit de près.",
+  title: "Ce qui fait la différence se voit *de près.*",
   items: [
     {
       kind: "image",
@@ -60,7 +60,7 @@ const descriptions: Record<string, string> = {
 
 export const collection = {
   eyebrow: "Collection",
-  title: "Trois teintes, un même geste.",
+  title: "Trois teintes, *un même geste.*",
   intro: "Chaque modèle est fabriqué à la demande. Écrivez-nous pour connaître les délais et les finitions.",
   products: bagVariants.map(
     (bag): Product => ({
@@ -80,7 +80,7 @@ export const collection = {
 
 export const faq = {
   eyebrow: "Questions fréquentes",
-  title: "Avant de commander",
+  title: "Avant de *commander*",
   items: [
     {
       id: "livraison",

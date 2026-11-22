@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Container } from "@/components/ui/Container";
 import { Glow } from "@/components/ui/Glow";
 import { ProductCard } from "@/components/ui/ProductCard";
@@ -14,8 +15,9 @@ export function Collection({ eyebrow, title, intro, products }: Props) {
       <Container>
         <SectionHeading id="collection-titre" eyebrow={eyebrow} title={title} intro={intro} />
         <ul className="mt-10 grid gap-6 md:mt-14 md:grid-cols-3">
-          {products.map((product) => (
-            <li key={product.id} data-reveal>
+          {products.map((product, i) => (
+            // Chaque carte est observée seule (mobile) ; sur grand écran, --i crée la cascade
+            <li key={product.id} data-reveal-group className="reveal-card" style={{ "--i": i } as CSSProperties}>
               <ProductCard product={product} />
             </li>
           ))}

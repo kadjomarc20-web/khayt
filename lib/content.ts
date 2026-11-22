@@ -66,7 +66,7 @@ export const hero = {
 
 export const savoirFaire = {
   eyebrow: "Savoir-faire",
-  title: "Chaque point est tiré à la main.",
+  title: "Chaque point est tiré *à la main.*",
   intro:
     "Nos sacs naissent sur un établi, pas sur une chaîne. La peau est choisie, coupée, puis assemblée au point sellier, deux aiguilles et un fil ciré, comme on le fait à Fès depuis des générations.",
   steps: [
@@ -93,7 +93,7 @@ export const savoirFaire = {
 
 export const atelier = {
   eyebrow: "L'atelier",
-  title: "Au cœur de la médina de Fès",
+  title: "Au cœur de la médina *de Fès*",
   body: "Le cuir que nous travaillons vient des tanneries de la ville, où les peaux sont encore teintées dans de grandes cuves de pierre.",
   quote:
     "Le cuir garde la mémoire des mains qui l'ont travaillé. Nous prenons le temps de bien le faire, pour qu'il dure.",

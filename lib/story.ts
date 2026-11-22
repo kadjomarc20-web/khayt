@@ -12,7 +12,7 @@ const artisan: ImageAsset = {
 /** Contenu du récit au scroll (non affiché pour l'instant, voir FabricationStory). */
 export const fabrication = {
   eyebrow: "Savoir-faire",
-  title: "De la peau au sac, quatre gestes.",
+  title: "De la peau au sac, *quatre gestes.*",
   intro:
     "Nos sacs naissent sur un établi, pas sur une chaîne. Faites défiler pour suivre la fabrication, étape par étape.",
   chapters: [

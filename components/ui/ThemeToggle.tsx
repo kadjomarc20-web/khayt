@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, type MouseEvent } from "react";
 
 function subscribe(onChange: () => void) {
   const mo = new MutationObserver(onChange);
@@ -13,14 +13,35 @@ const getServerSnapshot = () => false;
 export function ThemeToggle({ className = "" }: { className?: string }) {
   const isDark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  function toggle() {
+  function toggle(event: MouseEvent<HTMLButtonElement>) {
     const next = !isDark;
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {
-      /* stockage indisponible : le choix vaut pour la session */
+    const apply = () => {
+      document.documentElement.classList.toggle("dark", next);
+      try {
+        localStorage.setItem("theme", next ? "dark" : "light");
+      } catch {
+        /* stockage indisponible : le choix vaut pour la session */
+      }
+    };
+
+    // Le nouveau thème s'étend en cercle depuis le bouton (600 ms).
+    // Navigateur sans View Transitions ou mouvement réduit : bascule instantanée.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof document.startViewTransition !== "function") {
+      apply();
+      return;
     }
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    const transition = document.startViewTransition(apply);
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 600, easing: "cubic-bezier(0.22, 1, 0.36, 1)", pseudoElement: "::view-transition-new(root)" },
+      );
+    });
   }
 
   return (

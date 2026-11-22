@@ -114,6 +114,9 @@ Courbe d'entrée commune : `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)`. On anim
 | 2 | Image du sac | clic pastille | fondu croisé + `scale(0.95)`→1 (images empilées, cadre à ratio fixe : aucun saut) | 500 ms | ease-out | changement instantané |
 | 3 | Lueur orange hero | permanent | `radial-gradient` + `blur(60px)`, dérive `translate` + `scale` lente en boucle | 12 s | ease-in-out alterné | statique |
 | 4 | Sections | scroll (entrée) | opacité 0→1 + `translateY(24px)`→0, une fois | 700 ms | ease-out | fondu simple 300 ms, sans déplacement |
+| 4c | Titres de section | scroll (entrée) | surtitre, titre puis mot accentué (italique cuivre, passage entre `*` dans le contenu), puis chapeau : flou 10 px → net + fondu + montée 12 px, décalés de 120 / 300 / 420 ms | 700 ms | ease-out | fondu 300 ms sans flou |
+| 4d | Cartes de la collection | scroll (entrée) | le cadre de la carte monte d'abord, puis l'image et le texte apparaissent (+280 ms) ; cascade de 110 ms entre cartes sur grand écran | 700 ms | ease-out | fondu 300 ms |
+| 4e | Changement de thème | clic sur le bouton | le nouveau thème s'étend en cercle depuis le bouton (View Transitions API, `clip-path: circle()` sur l'instantané) | 600 ms | ease-out | bascule instantanée (aussi sans support navigateur) |
 | 5 | Bord sombre/clair | statique | `rounded-b-[48px]` / `rounded-t-[48px]` + lueur cuivre sur le bord | — | — | identique |
 | 6 | Citation tannerie | progression du scroll | chaque mot opacité 0.25→1 (Framer `useScroll` + `useTransform`) | lié au scroll | linéaire | texte plein |
 | 7 | Cartes bento | survol souris | `radial-gradient` qui suit `--x`/`--y` (calque en opacité) | 200 ms d'apparition | ease-out | lueur fixe au centre, sans suivi |
@@ -147,6 +150,9 @@ Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par 
 - **Contraste volontairement sous AA** : les mots « éteints » de la citation (opacité 0.25, ratio ≈ 2.0:1) tant que le scroll ne les a pas allumés. Le texte complet est fourni aux lecteurs d'écran (`sr-only`), et le mouvement réduit l'affiche plein. Pour passer l'audit Lighthouse à 100 %, monter le plancher à 0.4 (≈ 3.4:1, suffisant pour ce grand texte).
 
 - Récit au scroll (`components/sections/FabricationStory.tsx`, **non affiché**) : essayé avec les photos actuelles puis retiré, le rendu n'étant pas assez fluide. Gardé pour une vraie séquence vidéo (option A). Piloté par `hooks/useScrollProgress.ts` (un calcul par image, styles écrits directement, sans rendu React ni Framer Motion). Les chapitres sont dans `lib/story.ts` ; pour l'option A (vraie séquence vidéo), seules les images changent. La section utilise `overflow-x: clip` (et non `hidden`, qui casserait `sticky`).
+
+- Effets 4c, 4d et 4e inspirés des techniques d'une vidéo de tableau de bord (titres flou → net, cartes en cascade, transition circulaire) ; seules les techniques sont reprises. Le flou (`filter`) et le cercle (`clip-path` sur l'instantané de View Transitions) sont deux exceptions assumées à la règle transform/opacity, limitées à des éléments courts et ponctuels.
+- CSS découpé : `app/globals.css` (tokens), `app/styles/motion.css` (animations), `app/styles/story.css` (récit au scroll en réserve).
 
 ## 8. Mesures (build de production local, Lighthouse 12 mobile simulé)
 
