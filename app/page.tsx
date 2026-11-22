@@ -8,7 +8,8 @@ import { Faq } from "@/components/sections/Faq";
 import { Hero } from "@/components/sections/Hero";
 import { SavoirFaire } from "@/components/sections/SavoirFaire";
 import { collection, contact, details, faq } from "@/lib/catalog";
-import { atelier, hero, navLinks, savoirFaire } from "@/lib/content";
+import { atelier, hero, navLinks } from "@/lib/content";
+import { savoirFaire } from "@/lib/story";
 import { site } from "@/lib/site";
 
 export default function Home() {

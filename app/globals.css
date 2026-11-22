@@ -221,3 +221,94 @@ html:not(.js) .glow-rise {
 .js .lit-word--idle {
   opacity: 0.25;
 }
+
+/* ---------- Récit au scroll (Savoir-faire) ----------
+   Par défaut (sans JS, mouvement réduit) : liste simple, une image par chapitre. */
+.story-track {
+  padding: 2.5rem 0 4rem;
+}
+.story-texts {
+  display: grid;
+  gap: 3rem;
+}
+.story-frame,
+.story-progress {
+  display: none;
+}
+
+/* Mode « film » : scène fixée, le scroll fait défiler les chapitres */
+@media (prefers-reduced-motion: no-preference) {
+  .js .story-track {
+    height: calc(100svh + var(--n) * 75svh);
+    padding: 0;
+  }
+  .js .story-sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100svh;
+    align-items: center;
+    padding-top: 72px;
+  }
+  .js .story-frame {
+    display: block;
+    height: min(46svh, 420px);
+  }
+  .js .story-progress {
+    display: flex;
+  }
+  .js .story-texts {
+    position: relative;
+    display: block;
+    min-height: 11.5rem;
+  }
+  .js .story-text {
+    position: absolute;
+    inset: 0 0 auto 0;
+    opacity: 0;
+  }
+  .js .story-img {
+    opacity: 0;
+  }
+  .js .story-text:first-child,
+  .js .story-img:first-child {
+    opacity: 1;
+  }
+  .js .story-inline {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .js .story-frame {
+      height: min(72svh, 620px);
+    }
+    .js .story-texts {
+      min-height: 13rem;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-text {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Liste simple sur grand écran : deux colonnes sur toute la largeur */
+@media (min-width: 1024px) {
+  html:not(.js) .story-col {
+    grid-column: 1 / -1;
+  }
+  html:not(.js) .story-texts {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.5rem;
+  }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .story-col {
+    grid-column: 1 / -1;
+  }
+  .story-texts {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.5rem;
+  }
+}

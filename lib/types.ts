@@ -32,3 +32,12 @@ export type BentoItem =
   | { kind: "text"; id: string; title: string; body: string; className?: string };
 
 export type FaqItem = { id: string; question: string; answer: string };
+
+/** Chapitre du récit au scroll : l'image zoome de `from` à `to` pendant le chapitre. */
+export type StoryChapter = {
+  id: string;
+  title: string;
+  body: string;
+  image: ImageAsset;
+  zoom: { from: number; to: number; origin: string };
+};
