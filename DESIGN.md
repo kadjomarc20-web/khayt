@@ -114,7 +114,6 @@ Courbe d'entrée commune : `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)`. On anim
 | 2 | Image du sac | clic pastille | fondu croisé + `scale(0.95)`→1 (images empilées, cadre à ratio fixe : aucun saut) | 500 ms | ease-out | changement instantané |
 | 3 | Lueur orange hero | permanent | `radial-gradient` + `blur(60px)`, dérive `translate` + `scale` lente en boucle | 12 s | ease-in-out alterné | statique |
 | 4 | Sections | scroll (entrée) | opacité 0→1 + `translateY(24px)`→0, une fois | 700 ms | ease-out | fondu simple 300 ms, sans déplacement |
-| 4b | Savoir-faire (récit au scroll) | progression du scroll dans une piste de `100svh + 4 × 75svh` | scène fixée (`sticky`) : fondu croisé des images + zoom lent (`scale` de `from` à `to` par chapitre), texte qui s'efface puis monte (jamais deux textes superposés), barre de progression `scaleX` | liée au scroll (rAF) | linéaire | liste simple, une image par chapitre (aussi sans JS) |
 | 5 | Bord sombre/clair | statique | `rounded-b-[48px]` / `rounded-t-[48px]` + lueur cuivre sur le bord | — | — | identique |
 | 6 | Citation tannerie | progression du scroll | chaque mot opacité 0.25→1 (Framer `useScroll` + `useTransform`) | lié au scroll | linéaire | texte plein |
 | 7 | Cartes bento | survol souris | `radial-gradient` qui suit `--x`/`--y` (calque en opacité) | 200 ms d'apparition | ease-out | lueur fixe au centre, sans suivi |
@@ -147,7 +146,7 @@ Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par 
 - Mouvement réduit : aucune boucle, aucun déplacement ; seules les révélations gardent un fondu de 300 ms ; la citation est affichée pleine.
 - **Contraste volontairement sous AA** : les mots « éteints » de la citation (opacité 0.25, ratio ≈ 2.0:1) tant que le scroll ne les a pas allumés. Le texte complet est fourni aux lecteurs d'écran (`sr-only`), et le mouvement réduit l'affiche plein. Pour passer l'audit Lighthouse à 100 %, monter le plancher à 0.4 (≈ 3.4:1, suffisant pour ce grand texte).
 
-- Récit Savoir-faire (option B) : piloté par `hooks/useScrollProgress.ts` (un calcul par image, styles écrits directement, sans rendu React ni Framer Motion). Les chapitres sont dans `lib/story.ts` ; pour l'option A (vraie séquence vidéo), seules les images changent. La section utilise `overflow-x: clip` (et non `hidden`, qui casserait `sticky`).
+- Récit au scroll (`components/sections/FabricationStory.tsx`, **non affiché**) : essayé avec les photos actuelles puis retiré, le rendu n'étant pas assez fluide. Gardé pour une vraie séquence vidéo (option A). Piloté par `hooks/useScrollProgress.ts` (un calcul par image, styles écrits directement, sans rendu React ni Framer Motion). Les chapitres sont dans `lib/story.ts` ; pour l'option A (vraie séquence vidéo), seules les images changent. La section utilise `overflow-x: clip` (et non `hidden`, qui casserait `sticky`).
 
 ## 8. Mesures (build de production local, Lighthouse 12 mobile simulé)
 

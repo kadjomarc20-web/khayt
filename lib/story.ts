@@ -9,7 +9,8 @@ const artisan: ImageAsset = {
   position: "42% 50%",
 };
 
-export const savoirFaire = {
+/** Contenu du récit au scroll (non affiché pour l'instant, voir FabricationStory). */
+export const fabrication = {
   eyebrow: "Savoir-faire",
   title: "De la peau au sac, quatre gestes.",
   intro:

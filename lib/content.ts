@@ -64,6 +64,33 @@ export const hero = {
   bags: bagVariants,
 };
 
+export const savoirFaire = {
+  eyebrow: "Savoir-faire",
+  title: "Chaque point est tiré à la main.",
+  intro:
+    "Nos sacs naissent sur un établi, pas sur une chaîne. La peau est choisie, coupée, puis assemblée au point sellier, deux aiguilles et un fil ciré, comme on le fait à Fès depuis des générations.",
+  steps: [
+    {
+      title: "Choisir la peau",
+      body: "Chaque peau est inspectée à la main : sa souplesse, son grain, ses nuances guident la coupe.",
+    },
+    {
+      title: "Couper et préparer",
+      body: "Les pièces sont tracées, coupées, puis les tranches sont affinées, teintées et polies.",
+    },
+    {
+      title: "Coudre au point sellier",
+      body: "Un point solide, serré à la main, qui tient même si un fil venait à céder.",
+    },
+  ],
+  image: {
+    src: "/images/artisan.jpg",
+    alt: "Artisan maroquinier cousant à la main le rabat d'un sac en cuir cognac dans son atelier",
+    width: 1080,
+    height: 608,
+  },
+};
+
 export const atelier = {
   eyebrow: "L'atelier",
   title: "Au cœur de la médina de Fès",
