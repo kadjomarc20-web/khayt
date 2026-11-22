@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Tokens : thème clair (voir DESIGN.md) ---------- */
+:root {
+  --surface: #faf6f0;
+  --surface-raised: #f2eadf;
+  --line: #e2d6c6;
+  --line-strong: #8c7a6b;
+  --ink: #1e1713;
+  --ink-muted: #5c4d43;
+  --accent: #a8481a;
+  --accent-hover: #8f3c14;
+  --accent-soft: #f4e1d2;
+  --on-accent: #fff9f3;
+  --glow: #e8834a;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: light;
+}
+
+/* ---------- Thème sombre + sections « night » ---------- */
+.dark,
+[data-tone="night"] {
+  --surface: #120d0a;
+  --surface-raised: #1e1612;
+  --line: #3a2d25;
+  --line-strong: #7d6a5c;
+  --ink: #f5ede3;
+  --ink-muted: #b9a898;
+  --accent: #e8834a;
+  --accent-hover: #f09a66;
+  --accent-soft: #3b2318;
+  --on-accent: #1a0f08;
+  color-scheme: dark;
+}
+
+/* En thème sombre, les sections night descendent d'un cran */
+.dark [data-tone="night"] {
+  --surface: #0a0705;
+  --surface-raised: #17110d;
+}
+
+/* Les sections base suivent le thème global (réinitialise si imbriquées) */
+:root:not(.dark) [data-tone="base"] {
+  --surface: #faf6f0;
+  --surface-raised: #f2eadf;
+  --line: #e2d6c6;
+  --line-strong: #8c7a6b;
+  --ink: #1e1713;
+  --ink-muted: #5c4d43;
+  --accent: #a8481a;
+  --accent-hover: #8f3c14;
+  --accent-soft: #f4e1d2;
+  --on-accent: #fff9f3;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-glow: var(--glow);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
+
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625rem;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.875rem;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 2.375rem;
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Révélation au scroll (contenu visible sans JS) ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Titre mot par mot ---------- */
+.word-in {
+  display: inline-block;
+  animation: word-in 600ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+}
+
+/* ---------- Lueur qui dérive lentement ---------- */
+.glow-drift {
+  animation: glow-drift 12s ease-in-out infinite alternate;
+}
+@keyframes glow-drift {
+  from {
+    transform: translate3d(-6%, 4%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -4%, 0) scale(1.12);
+  }
+}
+
+/* ---------- Lueur du contact qui monte ---------- */
+.glow-rise {
+  opacity: 0;
+  transform: translateY(40%);
+  transition:
+    opacity 1000ms var(--ease-out),
+    transform 1000ms var(--ease-out);
+}
+.is-visible .glow-rise,
+html:not(.js) .glow-rise {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Mouvement réduit : fondus simples, aucune boucle ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .word-in,
+  .glow-drift {
+    animation: none;
+  }
+  .js [data-reveal] {
+    transform: none;
+    transition: opacity 300ms linear;
+  }
+  .glow-rise {
+    transform: none;
+    transition: opacity 300ms linear;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .js [data-reveal],
+  .glow-rise {
+    transition-duration: 300ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lit-word {
+    opacity: 1 !important;
+  }
+}
+
+/* Mots en attente du chargement de Framer Motion (pleins sans JS) */
+.js .lit-word--idle {
+  opacity: 0.25;
+}

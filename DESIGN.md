@@ -110,9 +110,9 @@ Courbe d'entrée commune : `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)`. On anim
 | # | Élément | Déclencheur | Effet | Durée | Courbe | Mouvement réduit |
 |---|---|---|---|---|---|---|
 | 1 | Titre du hero | chargement | mots un par un, opacité 0→1 + `translateY(0.4em)`→0, décalage 70 ms | 600 ms / mot | ease-out | titre affiché d'emblée |
-| 2 | Image du sac | clic pastille | fondu croisé + `scale(0.95)`→1 (images empilées, cadre à ratio fixe : aucun saut) | 500 ms | ease-out | fondu 200 ms sans échelle |
+| 2 | Image du sac | clic pastille | fondu croisé + `scale(0.95)`→1 (images empilées, cadre à ratio fixe : aucun saut) | 500 ms | ease-out | changement instantané |
 | 3 | Lueur orange hero | permanent | `radial-gradient` + `blur(60px)`, dérive `translate` + `scale` lente en boucle | 12 s | ease-in-out alterné | statique |
-| 4 | Sections | scroll (entrée) | opacité 0→1 + `translateY(24px)`→0, une fois | 700 ms | ease-out | apparition directe |
+| 4 | Sections | scroll (entrée) | opacité 0→1 + `translateY(24px)`→0, une fois | 700 ms | ease-out | fondu simple 300 ms, sans déplacement |
 | 5 | Bord sombre/clair | statique | `rounded-b-[48px]` / `rounded-t-[48px]` + lueur cuivre sur le bord | — | — | identique |
 | 6 | Citation tannerie | progression du scroll | chaque mot opacité 0.25→1 (Framer `useScroll` + `useTransform`) | lié au scroll | linéaire | texte plein |
 | 7 | Cartes bento | survol souris | `radial-gradient` qui suit `--x`/`--y` (calque en opacité) | 200 ms d'apparition | ease-out | lueur fixe au centre, sans suivi |
@@ -135,3 +135,21 @@ Note sur #8 : `grid-template-rows` n'est pas `transform`/`opacity`, mais c'est l
 | `coffret-1.jpg`, `coffret-2.jpg` | sac en coffret | Bento |
 
 Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par image, fond dégradé radial brun derrière pour fondre les bords ; jamais d'étirement. `priority` sur l'image cognac seulement, `sizes` précis, les autres en lazy.
+
+## 7. Notes de réalisation
+
+- Next.js 16 : `priority` est déprécié ; l'image du hero utilise `loading="eager"` + `fetchPriority="high"`. Les teintes bordeaux et noir ne sont montées qu'après le chargement de la première (ou au premier clic).
+- CSS inliné (`experimental.inlineCss`) et Cormorant non préchargée pour laisser la bande passante à l'image du hero.
+- Framer Motion (citation) est chargé en différé, à l'approche de la section Atelier.
+- Révélations : la classe `.js` est posée sur `<html>` par le script de thème ; sans JS tout le contenu reste visible.
+- Mouvement réduit : aucune boucle, aucun déplacement ; seules les révélations gardent un fondu de 300 ms ; la citation est affichée pleine.
+- **Contraste volontairement sous AA** : les mots « éteints » de la citation (opacité 0.25, ratio ≈ 2.0:1) tant que le scroll ne les a pas allumés. Le texte complet est fourni aux lecteurs d'écran (`sr-only`), et le mouvement réduit l'affiche plein. Pour passer l'audit Lighthouse à 100 %, monter le plancher à 0.4 (≈ 3.4:1, suffisant pour ce grand texte).
+
+## 8. Mesures (build de production local, Lighthouse 12 mobile simulé)
+
+| Catégorie | Score |
+|---|---|
+| Performance | 90 (LCP 3.6 s, TBT ≈ 60 ms, CLS 0.002) |
+| Accessibilité | 96 (seul écart : citation ci-dessus) |
+| Bonnes pratiques | 100 |
+| SEO | 100 |
