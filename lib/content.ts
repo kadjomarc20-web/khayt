@@ -50,9 +50,10 @@ export const bagVariants: BagVariant[] = [
 ];
 
 export const hero = {
-  title: "Le cuir de Fès, cousu à la main.",
-  /** Mots mis en valeur en italique accent */
-  highlight: ["à", "la", "main."],
+  /** Le titre, découpé en phrases révélées l'une après l'autre */
+  titlePhrases: ["Le cuir de Fès,", "cousu à la main."],
+  /** Fin du titre mise en valeur en italique accent */
+  highlight: "à la main.",
   subtitle:
     "Des sacs en cuir façonnés pièce par pièce dans un atelier de la médina, pensés pour être offerts et gardés longtemps.",
   primary: { label: "Découvrir la collection", href: "#collection" },

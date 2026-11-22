@@ -109,7 +109,8 @@ Courbe d'entrée commune : `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)`. On anim
 
 | # | Élément | Déclencheur | Effet | Durée | Courbe | Mouvement réduit |
 |---|---|---|---|---|---|---|
-| 1 | Titre du hero | chargement | mots un par un, opacité 0→1 + `translateY(0.4em)`→0, décalage 70 ms | 600 ms / mot | ease-out | titre affiché d'emblée |
+| 1 | Entrée du hero | chargement | titre phrase par phrase (0 / 150 ms), paragraphe (350 ms), boutons (500 ms) : fondu + montée de 24 px (16 px pour le paragraphe) | 600 ms | ease-out | tout affiché d'emblée |
+| 1b | Sac du hero (moment fort) | chargement, 200 ms | glisse depuis la droite (`translateX` 48 px, 24 px sur mobile) + `scale(0.96)`→1, **sans fondu** (image LCP) | 800 ms | ease-out | affiché d'emblée |
 | 2 | Image du sac | clic pastille | fondu croisé + `scale(0.95)`→1 (images empilées, cadre à ratio fixe : aucun saut) | 500 ms | ease-out | changement instantané |
 | 3 | Lueur orange hero | permanent | `radial-gradient` + `blur(60px)`, dérive `translate` + `scale` lente en boucle | 12 s | ease-in-out alterné | statique |
 | 4 | Sections | scroll (entrée) | opacité 0→1 + `translateY(24px)`→0, une fois | 700 ms | ease-out | fondu simple 300 ms, sans déplacement |

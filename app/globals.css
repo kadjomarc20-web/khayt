@@ -111,16 +111,46 @@ body {
   transform: none;
 }
 
-/* ---------- Titre mot par mot ---------- */
-.word-in {
-  display: inline-block;
-  animation: word-in 600ms var(--ease-out) both;
-  animation-delay: calc(var(--i) * 70ms);
+/* ---------- Entrée du hero (une seule chorégraphie, ~1,2 s) ----------
+   0 ms titre 1 · 150 ms titre 2 · 200 ms sac · 350 ms paragraphe · 500 ms boutons */
+.hero-in {
+  animation-duration: 600ms;
+  animation-timing-function: var(--ease-out);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0ms);
 }
-@keyframes word-in {
+.hero-rise {
+  animation-name: hero-rise;
+}
+.hero-rise-sm {
+  animation-name: hero-rise-sm;
+}
+.hero-slide {
+  --dx: 24px;
+  animation-name: hero-slide;
+  animation-duration: 800ms;
+}
+@media (min-width: 1024px) {
+  .hero-slide {
+    --dx: 48px;
+  }
+}
+@keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translateY(0.4em);
+    transform: translateY(24px);
+  }
+}
+@keyframes hero-rise-sm {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+/* Pas d'opacité : l'image du sac est l'élément LCP, elle doit rester peinte */
+@keyframes hero-slide {
+  from {
+    transform: translateX(var(--dx)) scale(0.96);
   }
 }
 
@@ -156,7 +186,7 @@ html:not(.js) .glow-rise {
   html {
     scroll-behavior: auto;
   }
-  .word-in,
+  .hero-in,
   .glow-drift {
     animation: none;
   }
