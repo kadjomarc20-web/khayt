@@ -22,6 +22,7 @@ export function Hero({ titlePhrases, highlight, subtitle, primary, secondary, ba
   return (
     <section
       data-tone="night"
+      data-pause-offscreen
       aria-label="Présentation"
       className="relative isolate overflow-hidden rounded-b-[48px] bg-surface pt-28 pb-16 text-ink md:pt-36 md:pb-24 dark:shadow-[0_0_0_1px_var(--line)]"
     >

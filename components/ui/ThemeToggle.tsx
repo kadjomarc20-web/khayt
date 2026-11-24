@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore, type MouseEvent } from "react";
+import { isKeyboardClick } from "@/lib/input";
 
 function subscribe(onChange: () => void) {
   const mo = new MutationObserver(onChange);
@@ -25,9 +26,9 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     };
 
     // Le nouveau thème s'étend en cercle depuis le bouton (600 ms).
-    // Navigateur sans View Transitions ou mouvement réduit : bascule instantanée.
+    // Clavier, mouvement réduit ou navigateur sans View Transitions : bascule instantanée.
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || typeof document.startViewTransition !== "function") {
+    if (isKeyboardClick(event) || reduce || typeof document.startViewTransition !== "function") {
       apply();
       return;
     }
@@ -36,12 +37,15 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     const y = rect.top + rect.height / 2;
     const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
     const transition = document.startViewTransition(apply);
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-        { duration: 600, easing: "cubic-bezier(0.22, 1, 0.36, 1)", pseudoElement: "::view-transition-new(root)" },
-      );
-    });
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 600, easing: "cubic-bezier(0.22, 1, 0.36, 1)", pseudoElement: "::view-transition-new(root)" },
+        );
+      })
+      // Second clic pendant le cercle : la transition précédente est abandonnée, c'est voulu
+      .catch(() => {});
   }
 
   return (

@@ -154,6 +154,12 @@ Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par 
 - Effets 4c, 4d et 4e inspirés des techniques d'une vidéo de tableau de bord (titres flou → net, cartes en cascade, transition circulaire) ; seules les techniques sont reprises. Le flou (`filter`) et le cercle (`clip-path` sur l'instantané de View Transitions) sont deux exceptions assumées à la règle transform/opacity, limitées à des éléments courts et ponctuels.
 - CSS découpé : `app/globals.css` (tokens), `app/styles/motion.css` (animations), `app/styles/story.css` (récit au scroll en réserve).
 
+- **Fréquence et clavier** (skill sites-animes-hero) : toute action déclenchée au clavier est instantanée (`lib/input.ts` → `isKeyboardClick`, `event.detail === 0`) : bouton de thème, pastilles du hero, FAQ. Seuls la souris et le toucher déclenchent les animations.
+- **Sorties plus courtes que les entrées** : FAQ ouverture 300 ms, fermeture 200 ms.
+- **Interruption** : un second clic pendant le cercle du thème abandonne la transition en cours sans erreur ; pastilles et FAQ sont des transitions CSS qui repartent de l'état courant.
+- **Boucles hors écran** : la lueur du hero (`data-pause-offscreen`) se met en pause quand le hero n'est plus visible.
+- `app/styles/story.css` n'est plus importé tant que le récit au scroll n'est pas affiché (le CSS est inliné dans chaque page).
+
 ## 8. Mesures (build de production local, Lighthouse 12 mobile simulé)
 
 | Catégorie | Score |

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "./styles/motion.css";
-@import "./styles/story.css";
+/* @import "./styles/story.css"; — récit au scroll en réserve, à réactiver avec FabricationStory */
 
 @custom-variant dark (&:where(.dark, .dark *));
 

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { isKeyboardClick } from "@/lib/input";
 import type { BagVariant } from "@/lib/types";
 
 type Props = { bags: BagVariant[] };
@@ -15,6 +16,8 @@ export function BagViewer({ bags }: Props) {
   const [active, setActive] = useState(0);
   // Les autres teintes ne sont chargées qu'après l'affichage de la première (LCP)
   const [ready, setReady] = useState(false);
+  // Changement de couleur au clavier : instantané (règle du projet)
+  const [instant, setInstant] = useState(false);
 
   return (
     <div className="flex flex-col items-center">
@@ -31,7 +34,7 @@ export function BagViewer({ bags }: Props) {
             fetchPriority={i === 0 ? "high" : "low"}
             onLoad={i === 0 ? () => setReady(true) : undefined}
             sizes="(min-width: 1024px) 440px, (min-width: 640px) 60vw, 90vw"
-            className={`object-cover transition duration-500 ease-brand ${
+            className={`object-cover transition duration-500 ease-brand ${instant ? "transition-none" : ""} ${
               i === active ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"
             }`}
             style={{ objectPosition: bag.image.position }}
@@ -50,7 +53,8 @@ export function BagViewer({ bags }: Props) {
           <button
             key={bag.id}
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              setInstant(isKeyboardClick(e));
               setReady(true);
               setActive(i);
             }}
