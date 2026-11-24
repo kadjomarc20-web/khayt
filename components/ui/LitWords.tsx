@@ -5,7 +5,7 @@ import type { RefObject } from "react";
 
 type Props = { words: string[]; target: RefObject<HTMLElement | null> };
 
-/** Mots liés au scroll (Framer Motion useScroll + useTransform) : opacité 0.25 → 1. */
+/** Mots liés au scroll (Framer Motion useScroll + useTransform) : opacité 0.4 → 1 (plancher AA grand texte : ≥ 3.38:1). */
 export default function LitWords({ words, target }: Props) {
   const { scrollYProgress } = useScroll({ target, offset: ["start 0.9", "end 0.5"] });
 
@@ -23,7 +23,7 @@ export default function LitWords({ words, target }: Props) {
 type WordProps = { progress: MotionValue<number>; range: [number, number]; children: string };
 
 function Word({ progress, range, children }: WordProps) {
-  const opacity = useTransform(progress, range, [0.25, 1]);
+  const opacity = useTransform(progress, range, [0.4, 1]);
   return (
     <>
       <m.span className="lit-word" style={{ opacity }}>

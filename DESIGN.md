@@ -118,7 +118,7 @@ Courbe d'entrée commune : `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)`. On anim
 | 4d | Cartes de la collection | scroll (entrée) | le cadre de la carte monte d'abord, puis l'image et le texte apparaissent (+280 ms) ; cascade de 110 ms entre cartes sur grand écran | 700 ms | ease-out | fondu 300 ms |
 | 4e | Changement de thème | clic sur le bouton | le nouveau thème s'étend en cercle depuis le bouton (View Transitions API, `clip-path: circle()` sur l'instantané) | 600 ms | ease-out | bascule instantanée (aussi sans support navigateur) |
 | 5 | Bord sombre/clair | statique | `rounded-b-[48px]` / `rounded-t-[48px]` + lueur cuivre sur le bord | — | — | identique |
-| 6 | Citation tannerie | progression du scroll | chaque mot opacité 0.25→1 (Framer `useScroll` + `useTransform`) | lié au scroll | linéaire | texte plein |
+| 6 | Citation tannerie | progression du scroll | chaque mot opacité 0.4→1 (Framer `useScroll` + `useTransform`) | lié au scroll | linéaire | texte plein |
 | 7 | Cartes bento | survol souris | `radial-gradient` qui suit `--x`/`--y` (calque en opacité) | 200 ms d'apparition | ease-out | lueur fixe au centre, sans suivi |
 | 8 | FAQ | clic | `grid-template-rows: 0fr`→`1fr` + opacité, `aria-expanded` / `aria-controls` | 300 ms | ease-out | ouverture instantanée |
 | 9 | Contact | scroll (entrée) | lueur qui monte depuis le bas : `translateY(40%)`→0 + opacité | 1000 ms | ease-out | lueur statique |
@@ -147,7 +147,7 @@ Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par 
 - Framer Motion (citation) est chargé en différé, à l'approche de la section Atelier.
 - Révélations : la classe `.js` est posée sur `<html>` par le script de thème ; sans JS tout le contenu reste visible.
 - Mouvement réduit : aucune boucle, aucun déplacement ; seules les révélations gardent un fondu de 300 ms ; la citation est affichée pleine.
-- **Contraste volontairement sous AA** : les mots « éteints » de la citation (opacité 0.25, ratio ≈ 2.0:1) tant que le scroll ne les a pas allumés. Le texte complet est fourni aux lecteurs d'écran (`sr-only`), et le mouvement réduit l'affiche plein. Pour passer l'audit Lighthouse à 100 %, monter le plancher à 0.4 (≈ 3.4:1, suffisant pour ce grand texte).
+- **Citation au scroll** : les mots « éteints » sont à opacité 0.4 (et non 0.25 du brief initial) pour respecter AA grand texte : 3.46:1 sur `#120d0a`, 3.38:1 sur `#0a0705` (exigence 3:1, texte ≥ 28 px).
 
 - Récit au scroll (`components/sections/FabricationStory.tsx`, **non affiché**) : essayé avec les photos actuelles puis retiré, le rendu n'étant pas assez fluide. Gardé pour une vraie séquence vidéo (option A). Piloté par `hooks/useScrollProgress.ts` (un calcul par image, styles écrits directement, sans rendu React ni Framer Motion). Les chapitres sont dans `lib/story.ts` ; pour l'option A (vraie séquence vidéo), seules les images changent. La section utilise `overflow-x: clip` (et non `hidden`, qui casserait `sticky`).
 
@@ -165,6 +165,6 @@ Hero : cadre à ratio fixe `4/5`, `object-cover`, `object-position` réglé par 
 | Catégorie | Score |
 |---|---|
 | Performance | 90–91 (LCP 3.5 s, TBT ≈ 90 ms, CLS 0) |
-| Accessibilité | 96 (seul écart : citation ci-dessus) |
+| Accessibilité | 100 |
 | Bonnes pratiques | 100 |
 | SEO | 100 |

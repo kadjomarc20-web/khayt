@@ -124,7 +124,7 @@ html:not(.js) .glow-rise {
 
 /* Mots en attente du chargement de Framer Motion (pleins sans JS) */
 .js .lit-word--idle {
-  opacity: 0.25;
+  opacity: 0.4;
 }
 
 /* ---------- Titres de section : du flou au net (inspiré des transitions de page « dashboard ») ---------- */
