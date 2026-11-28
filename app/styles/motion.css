@@ -191,3 +191,66 @@ html:not(.js) .glow-rise {
     transition: none !important;
   }
 }
+
+/* ---------- Bouton menu « tourbillon » (repris de la boulangerie, comme Zenab Glass,
+   Zenith Bridge, Chez Christy et Morocco Locks) : les 3 traits tournent de 720°
+   et deviennent une croix. Instantané au clavier et en mouvement réduit. ---------- */
+.burger {
+  position: relative;
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.burger-bar,
+.burger-bar::before,
+.burger-bar::after {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 1.5rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    rotate 500ms var(--ease-brand),
+    translate 500ms var(--ease-brand),
+    background-color 500ms var(--ease-brand);
+}
+.burger-bar {
+  top: 50%;
+  margin-top: -0.75px;
+}
+.burger-bar::before,
+.burger-bar::after {
+  content: "";
+}
+.burger-bar::before {
+  translate: 0 -7px;
+}
+.burger-bar::after {
+  translate: 0 7px;
+}
+.burger.is-open .burger-bar {
+  background-color: transparent;
+  rotate: 720deg;
+}
+.burger.is-open .burger-bar::before {
+  translate: 0 0;
+  rotate: 45deg;
+}
+.burger.is-open .burger-bar::after {
+  translate: 0 0;
+  rotate: -45deg;
+}
+.burger.is-instant .burger-bar,
+.burger.is-instant .burger-bar::before,
+.burger.is-instant .burger-bar::after {
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .burger-bar,
+  .burger-bar::before,
+  .burger-bar::after {
+    transition: none;
+  }
+}

@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { isKeyboardClick } from "@/lib/input";
 import type { NavLink } from "@/lib/types";
 
 export function MobileMenu({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
+  // Au clavier, la croix apparaît sans tourbillon (règle du projet : pas d'animation au clavier)
+  const [instant, setInstant] = useState(false);
   const panelId = useId();
 
   useEffect(() => {
@@ -18,15 +21,19 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
     <div className="lg:hidden">
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={(e) => {
+          setInstant(isKeyboardClick(e));
+          setOpen((v) => !v);
+        }}
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
         className="inline-flex size-11 items-center justify-center rounded-xl text-ink transition-colors duration-200 hover:bg-surface-raised"
       >
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-          {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-        </svg>
+        {/* Bouton « tourbillon » : 3 traits qui tournent de 720° en croix (styles/motion.css) */}
+        <span aria-hidden="true" className={`burger${open ? " is-open" : ""}${instant ? " is-instant" : ""}`}>
+          <span className="burger-bar" />
+        </span>
       </button>
       <div
         id={panelId}
